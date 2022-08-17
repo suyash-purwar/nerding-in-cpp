@@ -10,7 +10,7 @@ class Array {
         int x[10];
         
         Array() {
-
+            // No initalization needed
         }
 
         void readElement() {
