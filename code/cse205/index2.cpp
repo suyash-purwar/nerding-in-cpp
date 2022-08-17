@@ -63,6 +63,7 @@ class Array {
 
             if (position > maxsize-1) {
                 cout << "Insertion not possible!" << endl;
+                exit(0);
             } else {
                 for (int i = maxsize; position < maxsize; maxsize--) {
                     x[maxsize] = x[maxsize-1];
@@ -78,12 +79,26 @@ class Array {
             cin >> index;
             if (index > maxsize-1) {
                 cout << "Deletion not possible!" << endl;
+                exit(0);
             } else {
                 for (int i = index; maxsize > index; index++) {
                     x[index] = x[index+1];
                 }
+                x[maxsize-1] = 0;
                 cout << "Deletion successful!" << endl;
             }
+        }
+
+        int* mergeArray(int arr1[5], int arr2[3], int* c) {
+            int lengthOfArr1 = 5, lengthOfArr2 = 3;
+            for (int i = 0; i < lengthOfArr1; i++) {
+                c[i] = arr1[i];
+            }
+            for (int j = 0; j < lengthOfArr2; lengthOfArr1++, j++) {
+                c[lengthOfArr1] = arr2[j];
+            }
+            cout << "Merge completed" << endl;
+            return c;
         }
 };
 
@@ -91,9 +106,15 @@ int main() {
     Array arr1;
     arr1.readElement();
     arr1.displayElementForward();
-    // arr1.displayElementBackward();
-    // arr1.insertElement();
+    arr1.displayElementBackward();
+    arr1.insertElement();
     arr1.deleteElement();
-    arr1.displayElementForward();
+    int array1[5] = {2, 34, 2, 4, 79};
+    int array2[3] = {34, 56, 34};
+    int n_arr[8];
+    int* newArray = arr1.mergeArray(array1, array2, n_arr);
+    for (int i = 0; i < 8; i++) {
+        cout << newArray[i] << endl;
+    }
     return 0;
 }
