@@ -33,6 +33,7 @@ class LinkedList {
             } else {
                 last -> link = temp;
                 last = temp;
+                last -> link = first;
             }
         }
 
@@ -41,11 +42,11 @@ class LinkedList {
             if (temp == NULL) {
                 cout << "List is Empty";
             } else {
-                while (temp != NULL) {
+                while (temp != last) {
                     cout << temp -> data << " ===> ";
                     temp = temp -> link;
                 }
-                cout << "NULL" << endl;
+                cout << temp -> data  << " ===> NULL";
             }
         }
 
@@ -58,6 +59,7 @@ class LinkedList {
             temp -> link = NULL;
             temp -> link = first;
             first = temp;
+            last -> link = first;
         }
 
         void insert_at_end() {
@@ -70,6 +72,7 @@ class LinkedList {
 
             last -> link = temp;
             last = temp;
+            last -> link = first;
         }
 
         void insert_at_given_position() {
@@ -123,6 +126,7 @@ class LinkedList {
                 cout << "The last element deleted: " << cur -> data << endl;
                 pre -> link = NULL;
                 last = pre;
+                last -> link = first;
                 delete cur;
             } else {
                 cout << "Deletion is not possible" << endl;
@@ -200,6 +204,6 @@ int main() {
     // list.delete_at_given_position();
     // list.display();
     // list.reverse_traversal(first);
-    list.search();
+    // list.search();
     return 0;
 }
