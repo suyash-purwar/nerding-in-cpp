@@ -19,7 +19,7 @@ class Arr {
             size = s;
         }
 
-        void *push(int element) {
+        void push(int element) {
             /**
              * @brief Below line is now not working in the second call of this method
              */
