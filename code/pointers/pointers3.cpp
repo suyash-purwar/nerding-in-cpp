@@ -34,6 +34,7 @@ int main() {
     /** @brief datatype before pointer variable doesn't matter in some conditions when it comes to Pointer Typecasting */
     // Following are the examples for the same
 
+    // Refer to pointers9.cpp to understand more
     char a = '!';
     char *a0 = &a;
     cout << a0 << endl; // Some gibberish is getting printed god knows why

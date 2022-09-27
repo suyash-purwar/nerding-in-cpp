@@ -37,7 +37,7 @@ int main() {
     cout << ch1_ptr << endl;
     // As mentioned previously, line 37 will not print the address at which x is stored
     // But it will print value stored in ch1
-    // Note that it's only one character with no '\n' character\
+    // Note that it's only one character with no '\n' character
     // So, it will print the value stored in the subsequent memory addressed till the '\n' is found in any of the memory block
     // It will print some random characters and symbols stored in the subsequent memory blocks till it finds '\n'
 
