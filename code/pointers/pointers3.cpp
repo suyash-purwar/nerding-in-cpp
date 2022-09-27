@@ -33,10 +33,10 @@ int main() {
 
     /** @brief datatype before pointer variable doesn't matter in some conditions when it comes to Pointer Typecasting */
     // Following are the examples for the same
-    
+
     char a = '!';
     char *a0 = &a;
-    cout << a0 << endl;
+    cout << a0 << endl; // Some gibberish is getting printed god knows why
 
     bool bool1 = true;
     cout << &bool1 << endl;
@@ -50,7 +50,7 @@ int main() {
     int z = 1025;
     int *z0 = &z;
     bool *z1 = (bool*)z0;
-    cout << *z1; // 00000001 => 1
-    cout << *(z1+1); // 00000100 => 4
+    cout << *z1 << endl; // 00000001 => 1
+    cout << *(z1+1) << endl; // 00000100 => 4
     return 0;
 }

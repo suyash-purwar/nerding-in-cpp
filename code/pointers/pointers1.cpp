@@ -38,5 +38,18 @@ int main() {
     cout << (&*b == &a ) << endl;
     cout << &b << endl;
 
+    /**
+     * @brief Void Pointer
+     * @brief These tyepes of pointers can store addresses of any type of variables.
+     * @brief *vp1 is not allowed
+     * @brief Pointer arithmetic is not allowed in for Void Pointers
+     */
+
+    char c1 = 'A';
+    void *vp1 = &c1;
+    cout << endl << vp1 << endl;
+    // cout << *vp1 << endl;
+    // cout << vp1 + 1 << endl;
+
     return 0;
 }
