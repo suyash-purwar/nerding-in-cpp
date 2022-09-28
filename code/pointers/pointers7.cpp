@@ -22,7 +22,7 @@ void doSomething(int *a, int &b) {
     // cout << *c << endl; // c is not a pointer variable
     cout << *(&b+1) << endl;
     // Here, we accessed the memory address to which points to. Performed arithmetic addition on the address.
-    // Since, elements of the array are stored in contigious memory blocks, incrementing the address by one would take us 4 bytes ahead and address of the next element would be retrieved.
+    // Since, elements of the array are stored in contigious memory blocks, incrementing the address by one would take us 4 bytes ahead and address of the next element of the array would be retrieved.
     // Using dereferencing operator, value at the next memory block is retrieved
 }
 
@@ -48,7 +48,7 @@ int main() {
     cout << add(a, &a) << endl;
 
     a = 44; // Changed the value of var 'a'. Value of b should also get updated as both of them point to the same memory address
-    cout << b << endl;
+    cout << b << endl; // Yes, the value of b changes as well
 
     int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     cout << &arr << " " << arr << " " << *arr << endl;
