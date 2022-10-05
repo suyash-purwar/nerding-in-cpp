@@ -19,9 +19,8 @@ void doSomething(int *a, int &b) {
     cout << a << endl;
     cout << b << endl;
     // Variable b points to the memory of address of the first element of the arraay 'arr'
-    // cout << *c << endl; // c is not a pointer variable
     cout << *(&b+1) << endl;
-    // Here, we accessed the memory address to which points to. Performed arithmetic addition on the address.
+    // Here, we accessed the memory address to which variable 'b' points to. Performed arithmetic addition on the address.
     // Since, elements of the array are stored in contigious memory blocks, incrementing the address by one would take us 4 bytes ahead and address of the next element of the array would be retrieved.
     // Using dereferencing operator, value at the next memory block is retrieved
 }

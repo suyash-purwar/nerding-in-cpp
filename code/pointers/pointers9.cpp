@@ -45,7 +45,7 @@ int main() {
     cout << risky_char << endl;
     // It stores 'a' from 'abcdef' and stores it an address which is empty and writable
     // Similar thing happens to all the other characters
-    // But there may be a case where, where the compiler tries to store the character in a read-only or prefilled memory block\
+    // But there may be a case where, where the compiler tries to store the character in a read-only or prefilled memory block
     // So, this is not recommended
     // This is a bit complex to wrap your head around. Refer to Love Babbar's video on Pointer Part 2
 
