@@ -82,6 +82,7 @@ int main() {
     // In heap, we have to explicitly free the memory. Stack frees the space when the execition moves out of lexicals scope.
     // Stack frees the space by itself.
     // We use the 'delete' keyword for that
+    // Note: Always remember to clean the heap memory after it's usage
 
     // Delete 
     int *b = new int;
