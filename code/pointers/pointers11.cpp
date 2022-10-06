@@ -6,7 +6,7 @@ using std::endl;
 
 void func1(int *p) {
     p = p + 1;
-    // Variable 'o' is a pointer variable which can store the address of other variable
+    // Variable 'p' is a pointer variable which can store the address of other variable
     // Here, in the pointer variable 'p', we are storing p + 1
     // Which means that we are storing next subsequent memory block in p
     // Note that it does not change the value to which address stored in 'p' point to
