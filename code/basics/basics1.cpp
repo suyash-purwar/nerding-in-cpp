@@ -6,7 +6,7 @@ using namespace std;
 int main() {
     // '<<' is called stream insertion operator
     // cout is a predefined object of ostream class
-    char message[] = "Fuck you lil bitch";
+    char message[] = "Hello you lil kid";
     char name[15];
     cout << message << endl;
     // endl is a predefined object of ostream class
