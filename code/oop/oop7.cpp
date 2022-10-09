@@ -103,6 +103,8 @@ int main() {
 
     Hero h2(h1); // Call Default Copy Constructor
     // Copies all the properties of h1 to h2
+    // This can also be written as
+    // Hero h2 = h1;   <- This also calls the copy constructor
 
     Employee emp0(12, "Vinay", "Reddy", "Dr. K. Shivan", "Senior Propulsion Engineer");
     Employee emp1(emp0, "Suyash", "Purwar");
