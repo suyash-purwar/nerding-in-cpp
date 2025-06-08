@@ -7,3 +7,5 @@ code/**/tempCodeRunnerFile.cpp
 code/**/*.out
 code/**/*.exe
 **/*.o
+**/*.i
+**/*.s
