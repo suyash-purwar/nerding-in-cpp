@@ -9,4 +9,5 @@ code/**/*.exe
 **/*.o
 **/*.i
 **/*.s
-**/*.out
+.idea/
+editor.xml
