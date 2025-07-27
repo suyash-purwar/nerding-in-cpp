@@ -48,7 +48,8 @@ struct Pixel create_pixel(int x, int y, short int r, short int g, short int b) {
 }
 
 int main() {
-  struct Person person1, person2;
+  person person1;
+  struct Person person2;
   person1.name = "Suyash";
   person1.age = 32;
   
