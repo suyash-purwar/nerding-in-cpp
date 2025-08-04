@@ -1,11 +1,6 @@
 .vscode/
-code/oop/test.txt
-code/oop/test.txt~
-code/oop/.test.txt.un~
-code/DSA/
-code/**/tempCodeRunnerFile.cpp
-code/**/*.out
-code/**/*.exe
+.vagrant/
+**/*.out
 **/*.o
 **/*.i
 **/*.s
