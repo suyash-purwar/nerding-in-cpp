@@ -3,3 +3,6 @@ project(Main)
 
 add_executable(Main src/main.c)
 include(cmake/script2.cmake)
+
+include(cmake/script10.cmake)
+include(cmake/script10.cmake)
