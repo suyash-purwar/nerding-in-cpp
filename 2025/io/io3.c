@@ -1,9 +1,11 @@
 #include <stdio.h>
 
-int main() {
-  FILE* fp1 = fopen("./files/sample2.txt", "r");
+int main()
+{
+  FILE *fp1 = fopen("./files/sample2.txt", "r");
 
-  if (fp1 == NULL) {
+  if (fp1 == NULL)
+  {
     perror("Error opening file");
     return 1;
   }
@@ -29,23 +31,23 @@ int main() {
    * Otherwise, it returns EOF which is equals to -1.
    */
   char ch;
-  while((ch = fgetc(fp1)) != EOF) {
+  while ((ch = fgetc(fp1)) != EOF)
+  {
     printf("%c", ch);
   }
 
   printf("\n\n");
   fclose(fp1);
 
+  FILE *fp2 = fopen("./files/sample2.txt", "r");
 
-  FILE* fp2 = fopen("./files/sample2.txt", "r");
-
-  char* string;
+  char *string;
 
   /**
    * The `fgets()` function is used to read a line of text from file into character buffer
-   * stopping at newline, EOD, or at n-1 characters.
+   * stopping at newline, EOF, or at n-1 characters.
    * Returns the str pointer on success. NULL is returned on reaching EOF or encountering
-   * end of file.
+   * an unreadable character.
    */
   fgets(string, 10, fp2);
   printf("%s\n", string);
@@ -55,7 +57,8 @@ int main() {
 
   printf("\n");
 
-  while(fgets(string, 10, fp2) != NULL) {
+  while (fgets(string, 10, fp2) != NULL)
+  {
     printf("%s\n", string);
   }
 
