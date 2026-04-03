@@ -33,7 +33,7 @@ int main()
     pthread_create(&tid1, NULL, worker1, NULL);
 
     /**
-     * `pthread_join` function blocks the main thread untile the called thread terminates or calls pthread_exit
+     * `pthread_join` function blocks the main thread until the called thread terminates or calls pthread_exit
      * This function frees up the resources used by the thread. If this function is not called for joinable thread,
      * the thread after completing it's work becomes a zombie thread. The difference between joinable and detachable
      * thread is that detachable thread automatically frees up the resource after completing it's work whereas a
