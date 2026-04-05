@@ -46,7 +46,7 @@ int main() {
     void* thread_2_retval;
 
     pthread_create(&thread1, NULL, worker, &thread1_arg);
-    pthread_create(&thread2, NULL, worker, &thread2_arg); // Gets deadlocked
+    pthread_create(&thread2, NULL, worker, &thread2_arg);
 
     pthread_cancel(thread1);
 
@@ -57,8 +57,6 @@ int main() {
     }
 
     pthread_join(thread2, &thread_2_retval);
-
-    printf("Thread 2 is never joined as it starves for the mutex to unlock\n");
 
     return 0;
 }
