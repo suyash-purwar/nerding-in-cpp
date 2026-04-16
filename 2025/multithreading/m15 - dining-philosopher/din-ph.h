@@ -23,10 +23,12 @@ static spoon_t* philosopher_get_right_spoon(const philosopher_t*);
 
 static spoon_t* philosopher_get_left_spoon(const philosopher_t*);
 
-static void philosopher_eat(const philosopher_t*);
+static void philosopher_eat(philosopher_t*);
 
-static void philosopher_release_spoons(philosopher_t*);
+static void philosopher_release_spoons(const philosopher_t*);
 
-static void philosopher_acquire_spoons(philosopher_t*);
+static bool philosopher_acquire_spoons(philosopher_t*);
+
+void log(const philosopher_t*, char*, ...);
 
 #endif

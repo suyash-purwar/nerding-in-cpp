@@ -11,3 +11,4 @@ editor.xml
 **/.DS_Store
 2025/io/files
 2025/multithreading/files
+**/*.log

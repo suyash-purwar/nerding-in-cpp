@@ -136,7 +136,6 @@ void* consumer_worker(void* arg) {
     clear_queue(queue);
 
     pthread_cond_broadcast(&queue->cv);
-
     printf("%s: Broadcasted\n", thread_name);
 
     pthread_mutex_unlock(&queue->lock);
