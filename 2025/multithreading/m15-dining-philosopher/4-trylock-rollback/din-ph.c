@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-#include "din-ph.h"
+#include "../din-ph.h"
 
 #define N_PHILOSOPHERS 5
 #define LOG_LENGTH 500
