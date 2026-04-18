@@ -2,14 +2,12 @@
 #include <assert.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include "din-ph.h"
 
 #define N_PHILOSOPHERS 5
-#define LOG_LENGTH 500
-
-static philosopher_t philosophers[N_PHILOSOPHERS];
-static spoon_t spoons[N_PHILOSOPHERS];
+#define LOG_LENGTH 512
 
 void log(const philosopher_t* philosopher, char* log_fmt, ...) {
     char log[LOG_LENGTH];
@@ -24,100 +22,70 @@ void log(const philosopher_t* philosopher, char* log_fmt, ...) {
     printf("Philosopher %d: %s\n", philosopher->id, log);
 }
 
-static spoon_t* philosopher_get_right_spoon(const philosopher_t* philosopher) {
-    const int right_spoon_index = philosopher->id == 0 ? N_PHILOSOPHERS - 1 : philosopher->id - 1;
-    return &spoons[right_spoon_index];
-}
-
-static spoon_t* philosopher_get_left_spoon(const philosopher_t* philosopher) {
-    return &spoons[philosopher->id];
-}
-
-static void philosopher_eat(philosopher_t* philosopher) {
-    const spoon_t* left_spoon = philosopher_get_left_spoon(philosopher);
-    const spoon_t* right_spoon = philosopher_get_right_spoon(philosopher);
-
-    assert(left_spoon->philosopher->id == philosopher->id);
-    assert(right_spoon->philosopher->id == philosopher->id);
-    assert(left_spoon->is_used == true && right_spoon->is_used == true);
-
+void philosopher_eat(philosopher_t* philosopher) {
     philosopher->eat_count++;
-
-    log(philosopher, "Eating with spoons %d and %d", left_spoon->id, right_spoon->id);
+    log(philosopher, "Eating with spoons %d and %d", philosopher->left_spoon->id, philosopher->right_spoon->id);
 
     sleep(1);
 }
 
-static void philosopher_release_spoons(const philosopher_t* philosopher) {
-    spoon_t* left_spoon = philosopher_get_left_spoon(philosopher);
-    spoon_t* right_spoon = philosopher_get_right_spoon(philosopher);
+void philosopher_release_spoons(const philosopher_t* philosopher) {
+    spoon_t* left_spoon = philosopher->left_spoon;
+    spoon_t* right_spoon = philosopher->right_spoon;
 
     pthread_mutex_lock(&left_spoon->mutex);
-    left_spoon->philosopher = NULL;
     left_spoon->is_used = false;
 
     pthread_cond_signal(&left_spoon->cv);
     pthread_mutex_unlock(&left_spoon->mutex);
 
-
     pthread_mutex_lock(&right_spoon->mutex);
-    right_spoon->philosopher = NULL;
     right_spoon->is_used = false;
 
     pthread_cond_signal(&right_spoon->cv);
     pthread_mutex_unlock(&right_spoon->mutex);
 }
 
-static bool philosopher_acquire_spoons(philosopher_t* philosopher) {
-    spoon_t* left_spoon = philosopher_get_left_spoon(philosopher);
-    spoon_t* right_spoon = philosopher_get_right_spoon(philosopher);
+bool philosopher_acquire_spoons(const philosopher_t* philosopher) {
+    spoon_t* left_spoon = philosopher->left_spoon;
+    spoon_t* right_spoon = philosopher->right_spoon;
 
     log(philosopher, "Starts");
 
     pthread_mutex_lock(&left_spoon->mutex);
-    log(philosopher, "Mutex Lock Acquired on left spoon %d", left_spoon->id);
 
-    while (left_spoon->is_used && left_spoon->philosopher != philosopher) {
+    while (left_spoon->is_used) {
         log(philosopher, "CV Blocked - Left spoon not available");
         pthread_cond_wait(&left_spoon->cv, &left_spoon->mutex);
         log(philosopher, "CV Unblocked - Left spoon available");
     }
 
     left_spoon->is_used = true;
-    left_spoon->philosopher = philosopher;
     log(philosopher, "Left spoon taken %d", left_spoon->id);
 
     pthread_mutex_unlock(&left_spoon->mutex);
-    log(philosopher, "Mutex unlocked on left spoon %d", left_spoon->id);
 
     pthread_mutex_lock(&right_spoon->mutex);
-    log(philosopher, "Mutex locked on right spoon %d", right_spoon->id);
 
     if (right_spoon->is_used) {
         log(philosopher, "Right spoon not available");
         pthread_mutex_unlock(&right_spoon->mutex);
-        log(philosopher, "Mutex unlocked on right spoon %d", right_spoon->id);
 
         pthread_mutex_lock(&left_spoon->mutex);
-        log(philosopher, "Mutex locked on left spoon %d", left_spoon->id);
 
         left_spoon->is_used = false;
-        left_spoon->philosopher = NULL;
         pthread_cond_signal(&left_spoon->cv);
         log(philosopher, "Left spoon is put back %d", left_spoon->id);
 
         pthread_mutex_unlock(&left_spoon->mutex);
-        log(philosopher, "Mutex unlocked on left spoon %d", left_spoon->id);
 
         return false;
     }
 
     right_spoon->is_used = true;
-    right_spoon->philosopher = philosopher;
     log(philosopher, "Right spoon taken %d", right_spoon->id);
 
     pthread_mutex_unlock(&right_spoon->mutex);
-    log(philosopher, "Mutex unlocked on right spoon %d", right_spoon->id);
 
     return true;
 }
@@ -140,30 +108,55 @@ void* philosopher_fn(void *arg) {
             sleep(1);
         }
     }
-
-    return NULL;
 }
 
-void initialize_spoons() {
+spoon_t* initialize_spoons() {
+    spoon_t* spoons = malloc(N_PHILOSOPHERS * sizeof(spoon_t));
+
+    if (spoons == NULL) {
+        perror("Failed to allocate memory for spoons");
+        return NULL;
+    }
+
     for (int i = 0; i < N_PHILOSOPHERS; i++) {
         spoons[i].id = i;
         spoons[i].is_used = false;
-        spoons[i].philosopher = NULL;
         pthread_cond_init(&spoons[i].cv, NULL);
         pthread_mutex_init(&spoons[i].mutex, NULL);
     }
+
+    return spoons;
 }
 
-void initialise_philosophers() {
+philosopher_t* initialise_philosophers(spoon_t* spoons) {
+    philosopher_t* philosophers = malloc(N_PHILOSOPHERS * sizeof(philosopher_t));
+
+    if (philosophers == NULL || spoons == NULL) {
+        perror("Failed to allocate memory for philosophers");
+        return NULL;
+    }
+
+
+    for (int i = 0; i < N_PHILOSOPHERS; i++) {
+        philosophers[i].id = i;
+        philosophers[i].eat_count = 0;
+        philosophers[i].left_spoon = i == 0 ? &spoons[N_PHILOSOPHERS-1] : &spoons[i-1];
+        philosophers[i].right_spoon = &spoons[i];
+    }
+
+    return philosophers;
+}
+
+void start_philosophers(philosopher_t* philosophers) {
+    if (philosophers == NULL)
+        return;
+
     pthread_attr_t thread_attr;
     pthread_attr_init(&thread_attr);
 
     pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_DETACHED);
 
     for (int i = 0; i < N_PHILOSOPHERS; i++) {
-        philosophers[i].id = i;
-        philosophers[i].eat_count = 0;
-
         if (pthread_create(&philosophers[i].thread_handle, &thread_attr, philosopher_fn, &philosophers[i])) {
             printf("Failed to create philosopher thread %d\n", i);
             pthread_exit(0);
@@ -172,8 +165,10 @@ void initialise_philosophers() {
 }
 
 int main() {
-    initialize_spoons();
-    initialise_philosophers();
+    spoon_t* spoons = initialize_spoons();
+    philosopher_t* philosophers = initialise_philosophers(spoons);
+
+    start_philosophers(philosophers);
 
     pthread_exit(0);
 }
