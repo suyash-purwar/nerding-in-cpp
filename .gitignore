@@ -9,6 +9,6 @@ editor.xml
 **/build
 **/buildtree
 **/.DS_Store
-2025/io/files
-2025/multithreading/files
+io/files
+multithreading/files
 **/*.log
