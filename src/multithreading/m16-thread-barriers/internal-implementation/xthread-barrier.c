@@ -27,3 +27,8 @@ void xthread_barrier_wait(xthread_barrier_t* barrier) {
 
     pthread_mutex_unlock(&barrier->mutex);
 }
+
+void xthread_barrier_destroy(xthread_barrier_t* barrier) {
+    pthread_mutex_destroy(&barrier->mutex);
+    pthread_cond_destroy(&barrier->cv);
+}
