@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define THREAD_COUNT 3
+#define THREAD_COUNT 6
 
 pthread_barrier_t barrier;
 
@@ -32,7 +32,7 @@ int main() {
     pthread_attr_init(&thread_attr);
     pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_JOINABLE);
 
-    pthread_barrier_init(&barrier, NULL, THREAD_COUNT);
+    pthread_barrier_init(&barrier, NULL, 3);
 
     for (int i = 0; i < THREAD_COUNT; i++) {
         int* arg = malloc(sizeof(int));
