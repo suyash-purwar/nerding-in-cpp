@@ -72,6 +72,8 @@ int main() {
     pthread_join(thread2, NULL);
 
     pthread_attr_destroy(&t_attr);
+    sem_destroy(&thread_alternator.sem1);
+    sem_destroy(&thread_alternator.sem2);
 
     return 0;
 }
