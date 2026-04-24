@@ -53,5 +53,7 @@ int main() {
         }
     }
 
+    xthread_barrier_destroy(&barrier);
+
     return 0;
 }
