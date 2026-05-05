@@ -16,14 +16,26 @@
  *   second argument tells the program what it should call itself.
  * - In C, main(int argc, char *argv[]) expects argv[0] to be the name used to invoke the program. If you skip this and
  *   start with actual data arguments, the program will misinterpret your first data argument as its own name.
+ *
+ *   The `exec` family of functions are are as follows:
+ *   - `execl`
+ *   - `execlp`
+ *   - `execle`
+ *   - `execv`
+ *   - `execvp`
+ *   - `execvpe`
  */
 
 int main() {
     printf("My Program\n");
 
-    execl("/usr/bin/ls", "ls", "-al", NULL);
+    const int status = execl("/usr/bin/ls", "ls", "-al", NULL);
 
-    printf("This will not execute\n");
+    if (status == -1) {
+        perror("execl did not start\n");
+    }
+
+    printf("This should never execute\n");
 
     return 0;
 }
